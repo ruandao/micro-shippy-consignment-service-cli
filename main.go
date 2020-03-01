@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	micro "github.com/micro/go-micro"
-	pb "github.com/ruandao/micro-shippy-consignment-service/proto/consignment"
+	pb "github.com/ruandao/micro-shippy-consignment-service-ser/proto/consignment"
 	"io/ioutil"
 	"log"
 	"os"
