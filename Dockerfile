@@ -8,8 +8,10 @@ WORKDIR /app
 ENV GO11MODULE=ON
 
 
-COPY . .
+COPY go.mod .
 RUN go mod download
+
+COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o shippy-cli-consignment
 
 # RUN container

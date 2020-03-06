@@ -34,9 +34,11 @@ func main() {
 
 	// Contact the server and print out its response.
 	file := defaultFilename
+
 	if len(os.Args) > 1 {
 		file = os.Args[1]
 	}
+
 
 	consignment, err := parseFile(file)
 
