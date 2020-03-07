@@ -3,7 +3,9 @@ package main
 import (
 	"context"
 	"encoding/json"
-	micro "github.com/micro/go-micro"
+	microclient "github.com/micro/go-micro/client"
+	"github.com/micro/go-micro/config/cmd"
+	"github.com/ruandao/micro-shippy-consignment-service-ser/consignmentMongo"
 	pb "github.com/ruandao/micro-shippy-consignment-service-ser/proto/consignment"
 	"io/ioutil"
 	"log"
@@ -27,10 +29,10 @@ func parseFile(file string) (*pb.Consignment, error) {
 
 func main() {
 
-	service := micro.NewService(micro.Name("go.micro.srv.consignment.cli"))
-	service.Init()
-
-	client := pb.NewShippingServiceClient("go.micro.srv.consignment", service.Client())
+	//service := micro.NewService(micro.Name("go.micro.srv.consignment.cli"))
+	//service.Init()
+	cmd.Init()
+	client := pb.NewShippingServiceClient(consignmentMongo.CONST_SERVICE_NAME, microclient.DefaultClient)
 
 	// Contact the server and print out its response.
 	file := defaultFilename
@@ -41,7 +43,6 @@ func main() {
 
 
 	consignment, err := parseFile(file)
-
 	if err != nil {
 		log.Fatalf("Could not parse file: %v", err)
 	}
