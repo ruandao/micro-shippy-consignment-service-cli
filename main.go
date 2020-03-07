@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"github.com/micro/go-micro"
 	microclient "github.com/micro/go-micro/client"
-	"github.com/micro/go-micro/config/cmd"
 	"github.com/ruandao/micro-shippy-consignment-service-ser/consignmentMongo"
 	pb "github.com/ruandao/micro-shippy-consignment-service-ser/proto/consignment"
 	"io/ioutil"
@@ -34,12 +34,11 @@ func main() {
 		options.RequestTimeout = time.Second * 5
 		options.DialTimeout = time.Second * 6
 	}
-	//service := micro.NewService(
-	//	micro.Name("go.micro.srv.consignment.cli"),
-	//	)
-	//service.Init()
-	cmd.Init()
-	client := pb.NewShippingServiceClient(consignmentMongo.CONST_SERVICE_NAME, microclient.DefaultClient)
+	service := micro.NewService(
+		micro.Name("go.micro.srv.consignment.cli-create"),
+		)
+	service.Init()
+	client := pb.NewShippingServiceClient(consignmentMongo.CONST_SER_NAME_CONSIGNMENT, service.Client())
 
 	// Contact the server and print out its response.
 	file := defaultFilename
