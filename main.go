@@ -10,6 +10,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"time"
 )
 
 const (
@@ -29,7 +30,13 @@ func parseFile(file string) (*pb.Consignment, error) {
 
 func main() {
 
-	//service := micro.NewService(micro.Name("go.micro.srv.consignment.cli"))
+	var callOptions microclient.CallOption = func(options *microclient.CallOptions) {
+		options.RequestTimeout = time.Second * 5
+		options.DialTimeout = time.Second * 6
+	}
+	//service := micro.NewService(
+	//	micro.Name("go.micro.srv.consignment.cli"),
+	//	)
 	//service.Init()
 	cmd.Init()
 	client := pb.NewShippingServiceClient(consignmentMongo.CONST_SERVICE_NAME, microclient.DefaultClient)
@@ -47,7 +54,7 @@ func main() {
 		log.Fatalf("Could not parse file: %v", err)
 	}
 
-	r, err := client.CreateConsignment(context.Background(), consignment)
+	r, err := client.CreateConsignment(context.Background(), consignment, callOptions)
 	if err != nil {
 		log.Fatalf("Could not greet: %v", err)
 	}
